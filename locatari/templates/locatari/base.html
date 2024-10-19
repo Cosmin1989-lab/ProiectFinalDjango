@@ -3,24 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloc Administrare</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Administrare Bloc</title>
+    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon"> <!-- Favicon -->
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        /* Stiluri personalizate */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Fundal prietenos */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asigură că footerul rămâne jos */
+            padding-top: 60px; /* Adaugă spațiu deasupra pentru navbar-ul fix */
+            padding-bottom: 60px; /* Adaugă spațiu pentru footer-ul fix */
+            margin: 0;
+        }
+
+        .navbar {
+            position: fixed; /* Fixați bara de navigare */
+            top: 0; /* Poziționează-l în partea de sus a paginii */
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Asigură-te că navbar-ul rămâne deasupra altor elemente */
+            background: linear-gradient(to right, #4a90e2, #9013fe);
+        }
+
+        .container {
+            flex: 1; /* Permite extinderea containerului */
+            margin-top: 80px; /* Adaugă spațiu pentru a compensa navbar-ul fix */
+            margin-bottom: 60px; /* Adaugă spațiu pentru a preveni suprapunerea cu footer-ul fix */
+            padding-top: 20px;
+        }
+
+        /* Stil pentru mesajul de bun venit */
+        .welcome-text {
+            background-color: #ffefd5; /* Culori calde: bej deschis */
+            border: 1px solid #f4c542; /* Tonuri de galben mai închis */
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #5a5a5a; /* Text gri închis pentru contrast */
+        }
+        .welcome-text h2 {
+            color: #f5a623; /* Portocaliu cald pentru titlu */
+        }
+
+        /* Stil pentru informațiile utile */
+        .info-box {
+            background-color: #fff8e1; /* Fundal galben pal */
+            border: 1px solid #f0c14b; /* Galben mai închis */
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #5a5a5a; /* Text gri închis pentru contrast */
+        }
+        .info-box h4 {
+            color: #f5a623; /* Portocaliu cald pentru subtitluri */
+        }
+
+        footer {
+            position: fixed; /* Fixați footer-ul */
+            bottom: 0; /* Poziționează-l în partea de jos a paginii */
+            left: 0;
+            right: 0;
+            background-color: #4a90e2; /* Fundal footer */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1000; /* Asigură-te că footer-ul rămâne deasupra altor elemente */
+        }
+
+        /* Stil pentru pagina de login */
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="{% url 'profile' %}">Bloc Admin</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'logout' %}" aria-label="Logout">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-link" href="{% url 'login' %}" aria-label="Login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        <a class="nav-link" href="{% url 'register' %}" aria-label="Register">Register</a>
                     </li>
                 {% endif %}
             </ul>
@@ -28,12 +112,35 @@
     </nav>
 
     <div class="container">
+        <!-- Mesaj de bun venit -->
+        <div class="welcome-text">
+            <h2>Bun venit la Administrația Blocului!</h2>
+            <p>Suntem aici pentru a te ajuta să gestionezi eficient toate aspectele comunității tale.</p>
+        </div>
+
+        {% if messages %}
+            <div class="alert alert-info" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Chenare pentru informații -->
+        <div class="info-box">
+            <h4>Informații utile</h4>
+            <p>Aici poți găsi toate detaliile necesare pentru a gestiona blocul tău. Asigură-te că ești conectat pentru a accesa toate funcționalitățile.</p>
+        </div>
+            <br><br>
         {% block content %}{% endblock %}
     </div>
 
-     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <footer>
+        <p>&copy; 2024 Administrația Blocului. Toate drepturile rezervate.</p>
+    </footer>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
-
-
