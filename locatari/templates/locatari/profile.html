@@ -1,0 +1,34 @@
+{% extends 'locatari/base.html' %}
+
+{% block content %}
+<h2>Profil Locatar</h2>
+<p>Bine ai venit, {{ user.username }}!</p>
+
+<h3>Facturi de Întreținere</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Luna</th>
+            <th>Valoare</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for factura in facturi %}
+        <tr>
+            <td>{{ factura.luna }}</td>
+            <td>{{ factura.valoare }} lei</td>
+            <td>{{ factura.achitata|yesno:"Achitata,Neachitata" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Avizier</h3>
+<ul>
+    {% for mesaj in avizier %}
+        <li>{{ mesaj.titlu }} - {{ mesaj.data_postarii|date:"F d, Y" }}</li>
+        <p>{{ mesaj.mesaj }}</p>
+    {% endfor %}
+</ul>
+{% endblock %}
